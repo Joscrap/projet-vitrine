@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KAEL VOSS — DJ & Producteur</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Archivo+Black&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #080808;
+    --off-black: #111111;
+    --charcoal: #1a1a1a;
+    --dim: #2a2a2a;
+    --muted: #555;
+    --light: #aaa;
+    --white: #f0ede8;
+    --accent: #e8d84a;
+    --accent2: #ff4d1c;
+    --accent3: #00c8ff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid var(--accent);
+    border-radius: 50%;
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.15s ease;
+    mix-blend-mode: difference;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+  }
+
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    text-decoration: none;
+    color: var(--light);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 4rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 70% 40%, rgba(232,216,74,0.07) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 20% 70%, rgba(255,77,28,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 40% at 50% 0%, rgba(0,200,255,0.04) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(5rem, 15vw, 14rem);
+    line-height: 0.88;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    position: relative;
+  }
+
+  .hero-name span {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(240,237,232,0.3);
+  }
+
+  .hero-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 3rem;
+    gap: 2rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    border: 1px solid var(--dim);
+    padding: 0.4rem 0.9rem;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-radius: 100px;
+  }
+
+  .tag.active {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-scroll {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    color: var(--muted);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .scroll-line {
+    width: 60px;
+    height: 1px;
+    background: var(--dim);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .scroll-line::after {
+    content: '';
+    position: absolute;
+    left: -100%;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--dim);
+    border-bottom: 1px solid var(--dim);
+    padding: 1rem 0;
+    background: var(--off-black);
+  }
+
+  .marquee-track {
+    display: flex;
+    gap: 3rem;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+  }
+
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+  }
+
+  .marquee-dot {
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 7rem 3rem;
+  }
+
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+  }
+
+  /* ABOUT */
+  .about {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .about-visual {
+    position: relative;
+    aspect-ratio: 3/4;
+    background: var(--charcoal);
+    overflow: hidden;
+  }
+
+  .about-visual::before {
+    content: 'KAEL';
+    position: absolute;
+    bottom: -1rem;
+    right: -1rem;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 10rem;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--dim);
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .about-visual-inner {
+    width: 100%;
+    height: 100%;
+    background:
+      radial-gradient(ellipse at 30% 40%, rgba(232,216,74,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse at 70% 80%, rgba(255,77,28,0.12) 0%, transparent 50%),
+      var(--charcoal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .vinyl-wrap {
+    position: relative;
+    width: 200px;
+    height: 200px;
+  }
+
+  .vinyl {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 0deg,
+      #1a1a1a 0deg, #111 30deg, #1a1a1a 60deg, #111 90deg,
+      #1a1a1a 120deg, #111 150deg, #1a1a1a 180deg, #111 210deg,
+      #1a1a1a 240deg, #111 270deg, #1a1a1a 300deg, #111 330deg, #1a1a1a 360deg
+    );
+    box-shadow: 0 0 40px rgba(232,216,74,0.15), 0 0 80px rgba(232,216,74,0.05);
+    animation: spin 8s linear infinite;
+    position: relative;
+  }
+
+  .vinyl::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent) 0%, #c4b53a 40%, #1a1a1a 41%);
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  .about-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .about-bio {
+    color: var(--light);
+    line-height: 1.9;
+    font-size: 13px;
+    font-style: italic;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    border-top: 1px solid var(--dim);
+    padding-top: 2rem;
+  }
+
+  .stat-val {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 2.5rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-top: 0.3rem;
+  }
+
+  /* RELEASES */
+  .releases-section { background: var(--off-black); }
+
+  .releases-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 3rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .releases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .release-card {
+    background: var(--charcoal);
+    padding: 2rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: none;
+    group: true;
+  }
+
+  .release-card:hover { background: var(--dim); }
+
+  .release-card:hover .release-play {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .release-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    color: var(--black);
+    position: absolute;
+    bottom: -0.5rem;
+    right: 1rem;
+    line-height: 1;
+    pointer-events: none;
+  }
+
+  .release-cover {
+    width: 100%;
+    aspect-ratio: 1;
+    margin-bottom: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .release-art {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem;
+    letter-spacing: 0.1em;
+  }
+
+  .release-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 56px; height: 56px;
+    border: 1.5px solid white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s ease;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+  }
+
+  .play-triangle {
+    width: 0; height: 0;
+    border-left: 14px solid white;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    margin-left: 3px;
+  }
+
+  .release-title {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1rem;
+    margin-bottom: 0.3rem;
+    color: var(--white);
+  }
+
+  .release-meta {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* WAVEFORM */
+  .waveform-section {
+    text-align: center;
+    padding: 5rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .waveform-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    height: 80px;
+    margin: 3rem auto;
+    max-width: 800px;
+  }
+
+  .bar {
+    width: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+    animation: wave var(--dur) ease-in-out infinite alternate;
+    animation-delay: var(--delay);
+    opacity: 0.7;
+  }
+
+  @keyframes wave {
+    from { height: 8px; opacity: 0.3; }
+    to { height: var(--h); opacity: 1; }
+  }
+
+  /* DATES */
+  .dates-section { max-width: 1200px; margin: 0 auto; }
+
+  .dates-list {
+    margin-top: 3rem;
+    border-top: 1px solid var(--dim);
+  }
+
+  .date-row {
+    display: grid;
+    grid-template-columns: 100px 1fr auto auto;
+    gap: 2rem;
+    align-items: center;
+    padding: 1.5rem 0;
+    border-bottom: 1px solid var(--dim);
+    transition: background 0.2s;
+    cursor: none;
+  }
+
+  .date-row:hover { padding-left: 1rem; background: var(--off-black); margin: 0 -1rem; padding-right: 1rem; }
+
+  .date-day {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .date-month {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  .date-venue {
+    font-family: 'Archivo Black', sans-serif;
+    font-size: 1.1rem;
+    color: var(--white);
+  }
+
+  .date-location {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    font-style: italic;
+  }
+
+  .date-type {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border: 1px solid var(--dim);
+    color: var(--muted);
+    border-radius: 100px;
+  }
+
+  .date-type.sold { border-color: var(--accent2); color: var(--accent2); }
+  .date-type.vip { border-color: var(--accent3); color: var(--accent3); }
+
+  .btn {
+    background: transparent;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    padding: 0.6rem 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .btn:hover {
+    background: var(--accent);
+    color: var(--black);
+  }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--charcoal);
+    text-align: center;
+    padding: 8rem 3rem;
+  }
+
+  .contact-mega {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 10vw, 9rem);
+    line-height: 0.9;
+    color: transparent;
+    -webkit-text-stroke: 1px var(--dim);
+    margin: 2rem 0;
+    transition: color 0.3s;
+  }
+
+  .contact-mega:hover {
+    color: var(--white);
+    -webkit-text-stroke: 1px transparent;
+  }
+
+  .contact-email {
+    display: block;
+    text-decoration: none;
+  }
+
+  .contact-socials {
+    display: flex;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 3rem;
+  }
+
+  .social-link {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .social-link::after {
+    content: '↗';
+    font-size: 10px;
+  }
+
+  .social-link:hover { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--dim);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--black);
+  }
+
+  footer p {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="#" class="nav-logo">KV</a>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#releases">Releases</a></li>
+    <li><a href="#dates">Dates</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-eyebrow fade-in">Techno · Electronica · Bass Music</div>
+  <h1 class="hero-name fade-in" style="transition-delay: 0.1s">
+    KAEL
+    <span>VOSS</span>
+  </h1>
+  <div class="hero-bottom fade-in" style="transition-delay: 0.2s">
+    <div class="hero-tags">
+      <span class="tag active">Berlin</span>
+      <span class="tag">DJ & Producer</span>
+      <span class="tag">since 2016</span>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      Défiler
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Berghain<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Fabric London<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Tresor<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Output NYC<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Rex Club Paris<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Panorama Bar<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Concrete<div class="marquee-dot"></div></div>
+    <div class="marquee-item">De School<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Berghain<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Fabric London<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Tresor<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Output NYC<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Rex Club Paris<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Panorama Bar<div class="marquee-dot"></div></div>
+    <div class="marquee-item">Concrete<div class="marquee-dot"></div></div>
+    <div class="marquee-item">De School<div class="marquee-dot"></div></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about">
+    <div class="about-visual fade-in">
+      <div class="about-visual-inner">
+        <div class="vinyl-wrap">
+          <div class="vinyl"></div>
+        </div>
+      </div>
+    </div>
+    <div class="about-text fade-in" style="transition-delay: 0.15s">
+      <div class="section-label">01 — Biographie</div>
+      <h2 class="section-title">Architecte du son nocturne</h2>
+      <p class="about-bio">
+        Originaire de Cologne, établi à Berlin depuis 2014, Kael Voss sculpte des sets qui traversent les frontières entre techno industrielle, ambient texturale et bass music hypnotique.
+        <br><br>
+        Résidant au Tresor pendant trois ans, il a développé un langage sonore reconnaissable entre mille — des basses qui vrombissent comme des machines, des mélodies qui s'effacent comme des rêves.
+      </p>
+      <div class="about-stats">
+        <div>
+          <div class="stat-val">8+</div>
+          <div class="stat-label">Années d'expérience</div>
+        </div>
+        <div>
+          <div class="stat-val">200+</div>
+          <div class="stat-label">Shows dans 30 pays</div>
+        </div>
+        <div>
+          <div class="stat-val">14</div>
+          <div class="stat-label">Releases</div>
+        </div>
+        <div>
+          <div class="stat-val">4M+</div>
+          <div class="stat-label">Streams</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVEFORM -->
+<div class="waveform-section">
+  <div class="section-label">Signal en cours</div>
+  <div class="waveform-container" id="waveform"></div>
+</div>
+
+<!-- RELEASES -->
+<section class="releases-section" id="releases">
+  <div class="releases-header fade-in">
+    <div>
+      <div class="section-label">02 — Discographie</div>
+      <h2 class="section-title">Releases</h2>
+    </div>
+    <a href="#" class="btn">Voir tout</a>
+  </div>
+
+  <div class="releases-grid fade-in">
+    <!-- Card 1 -->
+    <div class="release-card">
+      <div class="release-cover">
+        <div class="release-art" style="background: linear-gradient(135deg, #0a0a0a, #1a0a00); color: #e8d84a;">NACHT</div>
+        <div class="release-play"><div class="play-triangle"></div></div>
+      </div>
+      <div class="release-title">Nachtschicht EP</div>
+      <div class="release-meta">
+        <span>Tresor Records</span>
+        <span>2024</span>
+      </div>
+      <div class="release-num">01</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="release-card">
+      <div class="release-cover">
+        <div class="release-art" style="background: linear-gradient(135deg, #000d1a, #001a33); color: #00c8ff;">VOID</div>
+        <div class="release-play"><div class="play-triangle"></div></div>
+      </div>
+      <div class="release-title">Void Protocol</div>
+      <div class="release-meta">
+        <span>Ostgut Ton</span>
+        <span>2023</span>
+      </div>
+      <div class="release-num">02</div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="release-card">
+      <div class="release-cover">
+        <div class="release-art" style="background: linear-gradient(135deg, #1a0000, #330000); color: #ff4d1c;">FERRO</div>
+        <div class="release-play"><div class="play-triangle"></div></div>
+      </div>
+      <div class="release-title">Ferro Brutale</div>
+      <div class="release-meta">
+        <span>Mote-Evolver</span>
+        <span>2023</span>
+      </div>
+      <div class="release-num">03</div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="release-card">
+      <div class="release-cover">
+        <div class="release-art" style="background: linear-gradient(135deg, #0a0a0a, #151515); color: #888;">STROM</div>
+        <div class="release-play"><div class="play-triangle"></div></div>
+      </div>
+      <div class="release-title">Strom / Gegenstrom</div>
+      <div class="release-meta">
+        <span>Kael Voss Records</span>
+        <span>2022</span>
+      </div>
+      <div class="release-num">04</div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="release-card">
+      <div class="release-cover">
+        <div class="release-art" style="background: linear-gradient(135deg, #001a0a, #003319); color: #00ff88;">TERRA</div>
+        <div class="release-play"><div class="play-triangle"></div></div>
+      </div>
+      <div class="release-title">Terra Incognita</div>
+      <div class="release-meta">
+        <span>Nous'klaer Audio</span>
+        <span>2022</span>
+      </div>
+      <div class="release-num">05</div>
+    </div>
+
+    <!-- Card 6 -->
+    <div class="release-card">
+      <div class="release-cover">
+        <div class="release-art" style="background: linear-gradient(135deg, #150a1a, #2a1433); color: #cc88ff;">PULS</div>
+        <div class="release-play"><div class="play-triangle"></div></div>
+      </div>
+      <div class="release-title">Pulsregion LP</div>
+      <div class="release-meta">
+        <span>Stroboscopic Artefacts</span>
+        <span>2021</span>
+      </div>
+      <div class="release-num">06</div>
+    </div>
+  </div>
+</section>
+
+<!-- DATES -->
+<section id="dates">
+  <div class="dates-section">
+    <div class="section-label fade-in">03 — Agenda</div>
+    <h2 class="section-title fade-in">Prochaines<br>dates</h2>
+
+    <div class="dates-list">
+      <div class="date-row fade-in">
+        <div>
+          <div class="date-day">03</div>
+          <div class="date-month">Mai 2025</div>
+        </div>
+        <div>
+          <div class="date-venue">Berghain</div>
+          <div class="date-location">Berlin, Allemagne</div>
+        </div>
+        <div class="date-type vip">VIP</div>
+        <a href="#" class="btn">Billets</a>
+      </div>
+
+      <div class="date-row fade-in">
+        <div>
+          <div class="date-day">17</div>
+          <div class="date-month">Mai 2025</div>
+        </div>
+        <div>
+          <div class="date-venue">Rex Club</div>
+          <div class="date-location">Paris, France</div>
+        </div>
+        <div class="date-type">Ouvert</div>
+        <a href="#" class="btn">Billets</a>
+      </div>
+
+      <div class="date-row fade-in">
+        <div>
+          <div class="date-day">01</div>
+          <div class="date-month">Jun 2025</div>
+        </div>
+        <div>
+          <div class="date-venue">Fabric</div>
+          <div class="date-location">Londres, Royaume-Uni</div>
+        </div>
+        <div class="date-type sold">Complet</div>
+        <a href="#" class="btn" style="opacity:0.4;pointer-events:none;">Billets</a>
+      </div>
+
+      <div class="date-row fade-in">
+        <div>
+          <div class="date-day">14</div>
+          <div class="date-month">Jun 2025</div>
+        </div>
+        <div>
+          <div class="date-venue">Dekmantel Festival</div>
+          <div class="date-location">Amsterdam, Pays-Bas</div>
+        </div>
+        <div class="date-type">Ouvert</div>
+        <a href="#" class="btn">Billets</a>
+      </div>
+
+      <div class="date-row fade-in">
+        <div>
+          <div class="date-day">28</div>
+          <div class="date-month">Jun 2025</div>
+        </div>
+        <div>
+          <div class="date-venue">Concrete</div>
+          <div class="date-location">Paris, France</div>
+        </div>
+        <div class="date-type">Ouvert</div>
+        <a href="#" class="btn">Billets</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-section" id="contact">
+  <div class="section-label">04 — Contact</div>
+  <p style="color: var(--muted); font-style: italic; margin-top: 0.5rem;">Bookings & management</p>
+  <a href="mailto:booking@kaelvoss.com" class="contact-email">
+    <div class="contact-mega">booking@<br>kaelvoss.com</div>
+  </a>
+  <div class="contact-socials">
+    <a href="#" class="social-link">Soundcloud</a>
+    <a href="#" class="social-link">Instagram</a>
+    <a href="#" class="social-link">Resident Advisor</a>
+    <a href="#" class="social-link">Bandcamp</a>
+  </div>
+</section>
+
+<footer>
+  <p>© 2025 Kael Voss. Tous droits réservés.</p>
+  <p style="font-style: italic;">Berlin · Paris · Worldwide</p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 5 + 'px';
+    cursor.style.top = my - 5 + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx - 18 + 'px';
+    ring.style.top = ry - 18 + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Waveform
+  const wf = document.getElementById('waveform');
+  const heights = [12,20,35,50,65,80,70,55,75,60,80,65,50,70,55,40,60,75,80,65,50,35,50,65,80,70,55,40,30,20,35,50,65,55,40,25,40,55,70,60,45,60,75,60,45,30,45,55,65,70,60];
+  heights.forEach((h, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'bar';
+    bar.style.setProperty('--h', h + 'px');
+    bar.style.setProperty('--dur', (0.6 + Math.random() * 0.8) + 's');
+    bar.style.setProperty('--delay', (i * 0.03) + 's');
+    wf.appendChild(bar);
+  });
+
+  // Scroll fade-in
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+
+  // Trigger hero immediately
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fade-in').forEach(el => el.classList.add('visible'));
+  }, 100);
+</script>
+</body>
+</html>
